@@ -37,7 +37,7 @@ end
 def find_pet_by_name(pet_shop,name)
   for pet in pet_shop[:pets]
     if pet[:name] == name
-      return pet[:name]
+      return pet
     end
   end
   return nil
@@ -69,4 +69,17 @@ def customer_can_afford_pet(customer, new_pet)
   elsif customer[:cash] >= new_pet[:price]
     return true
   end
+end
+
+def sell_pet_to_customer(pet_shop, pet, customer)
+  return if pet != nil && !customer_can_afford_pet(customer, pet)
+    for each_pet in pet_shop[:pets]
+      if each_pet == pet
+        add_or_remove_cash(pet_shop,pet[:price])
+        add_pet_to_customer(customer, pet)
+        increase_pets_sold(pet_shop, 1)
+        remove_pet_by_name(pet_shop, pet[:name])
+      end
+    end
+  return nil
 end
